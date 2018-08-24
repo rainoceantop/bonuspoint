@@ -52,7 +52,7 @@ CREATE TABLE orders
     points INT UNSIGNED NOT NULL, -- 商品的积分
     at TIMESTAMP NOT NULL DEFAULT now(),
     mode TINYINT NOT NULL DEFAULT 0, -- 默认0，立即到帐模式
-    return_days TINYINT UNSIGNED NOT NULL DEFAULT 0, -- 默认0，表示过了退货期
+    return_days TINYINT NOT NULL DEFAULT -1, -- 默认-1，表示过了退货期，大于等于0表示剩余天数
     PRIMARY KEY(id),
     FOREIGN KEY(uid) REFERENCES users(id),    
     FOREIGN KEY(tid) REFERENCES types(id)
