@@ -60,16 +60,20 @@ END;
 
 -- 存储过程，取消订单
 CREATE PROCEDURE CANCEL_ORDER(
+    IN _uid INT,
     IN _oid INT
 )
 BEGIN
     DECLARE e TINYINT DEFAULT 0;
+    DECLARE _o_uid TINYINT;
     DECLARE _return_days TINYINT;
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET e = 1;
     -- 获取用户订单，如果退货期限还有则将退货期限设置-1
-    SELECT return_days INTO _return_days FROM orders WHERE id = _oid;
-    IF (_return_days > 0) THEN
+    SELECT uid, return_days INTO _o_uid, _return_days FROM orders WHERE id = _oid;
+    IF (_return_days > 0 && _uid = _o_uid) THEN
         UPDATE orders SET return_days = -2, tid = 4 WHERE id = _oid;
+    ELSE
+        SET e = 1;
     END IF;
     SELECT e;
 END;
