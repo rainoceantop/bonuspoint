@@ -3,10 +3,11 @@ set_time_limit(5);
 require dirname(__FILE__).'/api/bonuspoint.php';
 
 $bp = new BonusPoint();
-
+// 获取请求函数
 $func = $_GET['m'];
-
+//判断函数是否存在
 if(method_exists($bp, $func)){
+    // 获取请求方式GET或POST
     $method = $_SERVER['REQUEST_METHOD'];
     if($method == 'GET'){
         switch($func){
